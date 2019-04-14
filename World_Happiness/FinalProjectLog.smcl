@@ -1,0 +1,650 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/hieunguyen/Documents/Fall 2018/Econ 467/FinalProject/FinalProjectLog.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}17 Dec 2018, 12:53:27
+
+{com}. do "/Users/hieunguyen/Documents/Fall 2018/Econ 467/FinalProject/FinalProject_Do.do"
+{txt}
+{com}. destring loggdppercapita , replace ignore("NA")
+{txt}loggdppercapita: characters{res} N A{txt} removed; {res}replaced {txt}as {res}double
+{txt}(15 missing values generated)
+{res}{txt}
+{com}. destring healthylifeexpectancyatbirth  , replace ignore("NA")
+{txt}healthylifeexpectancyatbirth: characters{res} N A{txt} removed; {res}replaced {txt}as {res}double
+{txt}(5 missing values generated)
+{res}{txt}
+{com}. destring freedomtomakelifechoices , replace ignore("NA")
+{txt}freedomtomakelifechoices: characters{res} N A{txt} removed; {res}replaced {txt}as {res}double
+{txt}(7 missing values generated)
+{res}{txt}
+{com}. destring generosity , replace ignore("NA")
+{txt}generosity: characters{res} N A{txt} removed; {res}replaced {txt}as {res}double
+{txt}(15 missing values generated)
+{res}{txt}
+{com}. destring perceptionsofcorruption  , replace ignore("NA")
+{txt}perceptionsofcorruption: characters{res} N A{txt} removed; {res}replaced {txt}as {res}double
+{txt}(41 missing values generated)
+{res}{txt}
+{com}. encode country, gen(id)
+{txt}
+{com}. xtset id year
+{res}{txt}{col 8}panel variable:  {res}id (unbalanced)
+{txt}{col 9}time variable:  {res}{col 25}year, 2015 to 2018, but with gaps
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. destring socialsupport, replace ignore("NA")
+{txt}socialsupport: characters{res} N A{txt} removed; {res}replaced {txt}as {res}double
+{txt}(3 missing values generated)
+{res}{txt}
+{com}. summarize year lifeladder loggdppercapita socialsupport healthylifeexpectancyatbirth freedomtomakelifechoices generosity perceptionsofcorruption
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 8}year {c |}{res}        573    2016.543    1.132948       2015       2018
+{txt}{space 2}lifeladder {c |}{res}        573    5.422723    1.119314   2.661718   7.788252
+{txt}loggdpperc~a {c |}{res}        558     9.29034    1.191323   6.473706   11.69316
+{txt}socialsupp~t {c |}{res}        570    .8060372    .1218133   .3055654   .9873435
+{txt}healthylif~h {c |}{res}        568     63.0897     7.57165   43.58916    75.8124
+{txt}{hline 13}{c +}{hline 57}
+freedomtom~s {c |}{res}        566    .7620292    .1326213   .3035404   .9851778
+{txt}{space 2}generosity {c |}{res}        558    .0828163    .2139355   -.296735   .8998865
+{txt}perception~n {c |}{res}        532    .7411602     .185436   .0473112    .969483
+{txt}
+{com}. regress lifeladder loggdppercapita healthylifeexpectancyatbirth freedomtomakelifechoices generosity perceptionsofcorruption socialsupport
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       516
+{txt}{hline 13}{c +}{hline 34}   F(6, 509)       = {res}   288.88
+{txt}       Model {c |} {res} 513.778981         6  85.6298301   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 150.878052       509  .296420534   {txt}R-squared       ={res}    0.7730
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7703
+{txt}       Total {c |} {res} 664.657033       515  1.29059618   {txt}Root MSE        =   {res} .54445
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2}  .290753{col 42}{space 2} .0461596{col 53}{space 1}    6.30{col 62}{space 3}0.000{col 70}{space 4} .2000663{col 83}{space 3} .3814397
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2} .0331487{col 42}{space 2}   .00649{col 53}{space 1}    5.11{col 62}{space 3}0.000{col 70}{space 4} .0203982{col 83}{space 3} .0458992
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} 1.623874{col 42}{space 2} .2185272{col 53}{space 1}    7.43{col 62}{space 3}0.000{col 70}{space 4} 1.194548{col 83}{space 3} 2.053201
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} .1464544{col 42}{space 2} .1202641{col 53}{space 1}    1.22{col 62}{space 3}0.224{col 70}{space 4}-.0898208{col 83}{space 3} .3827296
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2}-.5782514{col 42}{space 2} .1565162{col 53}{space 1}   -3.69{col 62}{space 3}0.000{col 70}{space 4}-.8857488{col 83}{space 3} -.270754
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} 2.547007{col 42}{space 2} .2996818{col 53}{space 1}    8.50{col 62}{space 3}0.000{col 70}{space 4} 1.958241{col 83}{space 3} 3.135772
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2}-2.233316{col 42}{space 2} .3137846{col 53}{space 1}   -7.12{col 62}{space 3}0.000{col 70}{space 4}-2.849788{col 83}{space 3}-1.616843
+{txt}{hline 29}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. graph box lifeladder  , marker(1, mlabel(lifeladder ))
+{res}{txt}
+{com}. graph box healthylifeexpectancyatbirth , marker(1, mlabel(healthylifeexpectancyatbirth ))
+{txt}(5 missing values generated)
+{res}{txt}
+{com}. graph box freedomtomakelifechoices, marker(1, mlabel(freedomtomakelifechoices))
+{txt}(7 missing values generated)
+{res}{txt}
+{com}. graph box loggdppercapita, marker(1, mlabel(loggdppercapit))
+{txt}(15 missing values generated)
+{res}{txt}
+{com}. pwcorr loggdppercapita healthylifeexpectancyatbirth freedomtomakelifechoices generosity perceptionsofcorruption socialsupport 
+
+             {txt}{c |} loggdp~a health~h freedo~s genero~y percep~n social~t
+{hline 13}{c +}{hline 54}
+loggdpperc~a {c |} {res}  1.0000 
+{txt}healthylif~h {c |} {res}  0.8562   1.0000 
+{txt}freedomtom~s {c |} {res}  0.3658   0.3380   1.0000 
+  {txt}generosity {c |} {res}  0.0946   0.0866   0.2657   1.0000 
+{txt}perception~n {c |} {res} -0.3713  -0.3240  -0.4786  -0.3074   1.0000 
+{txt}socialsupp~t {c |} {res}  0.7157   0.6704   0.3940   0.1225  -0.2533   1.0000 
+{txt}
+{com}. regress lifeladder loggdppercapita healthylifeexpectancyatbirth freedomtomakelifechoices generosity perceptionsofcorruption socialsupport
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       516
+{txt}{hline 13}{c +}{hline 34}   F(6, 509)       = {res}   288.88
+{txt}       Model {c |} {res} 513.778981         6  85.6298301   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 150.878052       509  .296420534   {txt}R-squared       ={res}    0.7730
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7703
+{txt}       Total {c |} {res} 664.657033       515  1.29059618   {txt}Root MSE        =   {res} .54445
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2}  .290753{col 42}{space 2} .0461596{col 53}{space 1}    6.30{col 62}{space 3}0.000{col 70}{space 4} .2000663{col 83}{space 3} .3814397
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2} .0331487{col 42}{space 2}   .00649{col 53}{space 1}    5.11{col 62}{space 3}0.000{col 70}{space 4} .0203982{col 83}{space 3} .0458992
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} 1.623874{col 42}{space 2} .2185272{col 53}{space 1}    7.43{col 62}{space 3}0.000{col 70}{space 4} 1.194548{col 83}{space 3} 2.053201
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} .1464544{col 42}{space 2} .1202641{col 53}{space 1}    1.22{col 62}{space 3}0.224{col 70}{space 4}-.0898208{col 83}{space 3} .3827296
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2}-.5782514{col 42}{space 2} .1565162{col 53}{space 1}   -3.69{col 62}{space 3}0.000{col 70}{space 4}-.8857488{col 83}{space 3} -.270754
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} 2.547007{col 42}{space 2} .2996818{col 53}{space 1}    8.50{col 62}{space 3}0.000{col 70}{space 4} 1.958241{col 83}{space 3} 3.135772
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2}-2.233316{col 42}{space 2} .3137846{col 53}{space 1}   -7.12{col 62}{space 3}0.000{col 70}{space 4}-2.849788{col 83}{space 3}-1.616843
+{txt}{hline 29}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. vif
+
+{txt}    Variable {c |}       VIF       1/VIF  
+{hline 13}{c +}{hline 22}
+loggdpperc~a {c |} {res}     5.20    0.192301
+{txt}healthylif~h {c |} {res}     4.37    0.228730
+{txt}socialsupp~t {c |} {res}     2.31    0.433444
+{txt}perception~n {c |} {res}     1.47    0.678480
+{txt}freedomtom~s {c |} {res}     1.47    0.680840
+{txt}{space 2}generosity {c |} {res}     1.14    0.879774
+{txt}{hline 13}{c +}{hline 22}
+    Mean VIF {c |} {res}     2.66
+{txt}
+{com}. xtreg lifeladder loggdppercapita healthylifeexpectancyatbirth freedomtomakelifechoices generosity perceptionsofcorruption socialsupport, fe
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       516
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}       143
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.1416{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.7252{col 63}{txt}avg{col 67}={col 69}{res}       3.6
+{txt}     overall = {res}0.6954{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}367{txt}){col 67}={col 70}{res}    10.09
+{txt}corr(u_i, Xb){col 16}= {res}-0.8172{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} 1.482892{col 42}{space 2} .5237021{col 53}{space 1}    2.83{col 62}{space 3}0.005{col 70}{space 4} .4530581{col 83}{space 3} 2.512725
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2}-.0202885{col 42}{space 2} .0522281{col 53}{space 1}   -0.39{col 62}{space 3}0.698{col 70}{space 4}-.1229924{col 83}{space 3} .0824153
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} 1.648364{col 42}{space 2} .3070552{col 53}{space 1}    5.37{col 62}{space 3}0.000{col 70}{space 4} 1.044555{col 83}{space 3} 2.252172
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} .0359809{col 42}{space 2} .0670951{col 53}{space 1}    0.54{col 62}{space 3}0.592{col 70}{space 4}-.0959582{col 83}{space 3}   .16792
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2} -.718346{col 42}{space 2} .3615527{col 53}{space 1}   -1.99{col 62}{space 3}0.048{col 70}{space 4}-1.429321{col 83}{space 3}-.0073712
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} .3176154{col 42}{space 2} .3987537{col 53}{space 1}    0.80{col 62}{space 3}0.426{col 70}{space 4}-.4665135{col 83}{space 3} 1.101744
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2}-7.968423{col 42}{space 2}  4.66414{col 53}{space 1}   -1.71{col 62}{space 3}0.088{col 70}{space 4}-17.14022{col 83}{space 3} 1.203371
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} 1.0244228
+                     {txt}sigma_e {c |} {res} .21445932
+                         {txt}rho {c |} {res} .95801412{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}142{txt}, {res}367{txt}) = {res}20.52{col 62}{txt}Prob > F = {res}0.0000
+{txt}
+{com}. xttest3
+
+{txt}Modified Wald test for groupwise heteroskedasticity
+in fixed effect regression model
+
+{res}H0: sigma(i)^2 = sigma^2 for all i
+
+{txt}chi2 (143)  =  {res} 8.9e+30
+{txt}Prob>chi2 =    {res}  0.0000
+
+{txt}
+{com}. xtreg lifeladder loggdppercapita healthylifeexpectancyatbirth freedomtomakelifechoices generosity perceptionsofcorruption socialsupport, fe vce(robust)
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       516
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}       143
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.1416{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.7252{col 63}{txt}avg{col 67}={col 69}{res}       3.6
+{txt}     overall = {res}0.6954{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}142{txt}){col 67}={col 70}{res}     5.47
+{txt}corr(u_i, Xb){col 16}= {res}-0.8172{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{ralign 94:(Std. Err. adjusted for {res:143} clusters in id)}
+{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 30}{c |}{col 42}    Robust
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} 1.482892{col 42}{space 2} .8248396{col 53}{space 1}    1.80{col 62}{space 3}0.074{col 70}{space 4}-.1476606{col 83}{space 3} 3.113444
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2}-.0202885{col 42}{space 2} .0888739{col 53}{space 1}   -0.23{col 62}{space 3}0.820{col 70}{space 4}-.1959754{col 83}{space 3} .1553983
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} 1.648364{col 42}{space 2} .3854345{col 53}{space 1}    4.28{col 62}{space 3}0.000{col 70}{space 4} .8864325{col 83}{space 3} 2.410295
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} .0359809{col 42}{space 2} .0266078{col 53}{space 1}    1.35{col 62}{space 3}0.178{col 70}{space 4}-.0166177{col 83}{space 3} .0885795
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2} -.718346{col 42}{space 2} .6078926{col 53}{space 1}   -1.18{col 62}{space 3}0.239{col 70}{space 4}-1.920035{col 83}{space 3} .4833428
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} .3176154{col 42}{space 2} .6728738{col 53}{space 1}    0.47{col 62}{space 3}0.638{col 70}{space 4}-1.012529{col 83}{space 3}  1.64776
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2}-7.968423{col 42}{space 2}  7.14614{col 53}{space 1}   -1.12{col 62}{space 3}0.267{col 70}{space 4}-22.09499{col 83}{space 3} 6.158144
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} 1.0244228
+                     {txt}sigma_e {c |} {res} .21445932
+                         {txt}rho {c |} {res} .95801412{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+
+{com}. xtreg lifeladder loggdppercapita healthylifeexpectancyatbirth freedomtomakelifechoices generosity perceptionsofcorruption socialsupport, fe
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       516
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}       143
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.1416{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.7252{col 63}{txt}avg{col 67}={col 69}{res}       3.6
+{txt}     overall = {res}0.6954{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}367{txt}){col 67}={col 70}{res}    10.09
+{txt}corr(u_i, Xb){col 16}= {res}-0.8172{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} 1.482892{col 42}{space 2} .5237021{col 53}{space 1}    2.83{col 62}{space 3}0.005{col 70}{space 4} .4530581{col 83}{space 3} 2.512725
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2}-.0202885{col 42}{space 2} .0522281{col 53}{space 1}   -0.39{col 62}{space 3}0.698{col 70}{space 4}-.1229924{col 83}{space 3} .0824153
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} 1.648364{col 42}{space 2} .3070552{col 53}{space 1}    5.37{col 62}{space 3}0.000{col 70}{space 4} 1.044555{col 83}{space 3} 2.252172
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} .0359809{col 42}{space 2} .0670951{col 53}{space 1}    0.54{col 62}{space 3}0.592{col 70}{space 4}-.0959582{col 83}{space 3}   .16792
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2} -.718346{col 42}{space 2} .3615527{col 53}{space 1}   -1.99{col 62}{space 3}0.048{col 70}{space 4}-1.429321{col 83}{space 3}-.0073712
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} .3176154{col 42}{space 2} .3987537{col 53}{space 1}    0.80{col 62}{space 3}0.426{col 70}{space 4}-.4665135{col 83}{space 3} 1.101744
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2}-7.968423{col 42}{space 2}  4.66414{col 53}{space 1}   -1.71{col 62}{space 3}0.088{col 70}{space 4}-17.14022{col 83}{space 3} 1.203371
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} 1.0244228
+                     {txt}sigma_e {c |} {res} .21445932
+                         {txt}rho {c |} {res} .95801412{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}142{txt}, {res}367{txt}) = {res}20.52{col 62}{txt}Prob > F = {res}0.0000
+{txt}
+{com}. estimate store fixedeff
+{txt}
+{com}. xtreg lifeladder loggdppercapita healthylifeexpectancyatbirth freedomtomakelifechoices generosity perceptionsofcorruption socialsupport, re
+{res}
+{txt}Random-effects GLS regression                   Number of obs     = {res}       516
+{txt}Group variable: {res}id                              {txt}Number of groups  = {res}       143
+
+{txt}R-sq:                                           Obs per group:
+     within  = {res}0.1253                                         {txt}min = {res}         1
+{txt}     between = {res}0.7911                                         {txt}avg = {res}       3.6
+{txt}     overall = {res}0.7616                                         {txt}max = {res}         4
+
+                                                {txt}Wald chi2({res}6{txt})      =  {res}   580.87
+{txt}corr(u_i, X)   = {res}0{txt} (assumed)                    Prob > chi2       =     {res}0.0000
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      z{col 62}   P>|z|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} .4041019{col 42}{space 2} .0784593{col 53}{space 1}    5.15{col 62}{space 3}0.000{col 70}{space 4} .2503245{col 83}{space 3} .5578794
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2} .0346337{col 42}{space 2} .0114305{col 53}{space 1}    3.03{col 62}{space 3}0.002{col 70}{space 4} .0122304{col 83}{space 3} .0570371
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} 1.742469{col 42}{space 2} .2380667{col 53}{space 1}    7.32{col 62}{space 3}0.000{col 70}{space 4} 1.275867{col 83}{space 3} 2.209071
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} .0472549{col 42}{space 2} .0659602{col 53}{space 1}    0.72{col 62}{space 3}0.474{col 70}{space 4}-.0820246{col 83}{space 3} .1765345
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2}-.5601785{col 42}{space 2} .2194941{col 53}{space 1}   -2.55{col 62}{space 3}0.011{col 70}{space 4}-.9903791{col 83}{space 3} -.129978
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2}   1.1016{col 42}{space 2} .3250657{col 53}{space 1}    3.39{col 62}{space 3}0.001{col 70}{space 4} .4644834{col 83}{space 3} 1.738717
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2}-2.312981{col 42}{space 2} .4726624{col 53}{space 1}   -4.89{col 62}{space 3}0.000{col 70}{space 4}-3.239382{col 83}{space 3} -1.38658
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} .50612757
+                     {txt}sigma_e {c |} {res} .21445932
+                         {txt}rho {c |} {res} .84778556{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+
+{com}. estimate store randeff
+{txt}
+{com}. hausman fixedeff randeff
+
+{txt}{col 18}{hline 4} Coefficients {hline 4}
+{col 14}{c |}{col 21}(b){col 34}(B){col 49}(b-B){col 59}sqrt(diag(V_b-V_B))
+{col 14}{c |}{col 17}  fixedeff  {col 30}  randeff   {col 46}Difference{col 66}S.E.
+{hline 13}{c +}{hline 64}
+loggdpperc~a {c |}{res}{col 18} 1.482892{col 31} .4041019{col 47}  1.07879{col 63} .5177915
+{txt}healthylif~h {c |}{res}{col 18}-.0202885{col 31} .0346337{col 47}-.0549222{col 63} .0509619
+{txt}freedomtom~s {c |}{res}{col 18} 1.648364{col 31} 1.742469{col 47} -.094105{col 63} .1939256
+{txt}{space 2}generosity {c |}{res}{col 18} .0359809{col 31} .0472549{col 47} -.011274{col 63} .0122886
+{txt}perception~n {c |}{res}{col 18} -.718346{col 31}-.5601785{col 47}-.1581675{col 63} .2873024
+{txt}socialsupp~t {c |}{res}{col 18} .3176154{col 31}   1.1016{col 47}-.7839851{col 63} .2309477
+{txt}{hline 13}{c BT}{hline 64}
+{ralign 78:b = consistent under Ho and Ha; obtained from xtreg}
+{ralign 78:B = inconsistent under Ha, efficient under Ho; obtained from xtreg}
+
+    Test:  Ho:  difference in coefficients not systematic
+
+{ralign 25:chi2({res:6})} = (b-B)'[(V_b-V_B)^(-1)](b-B)
+{col 27}=  {res}     15.17
+{txt}{col 17}Prob>chi2 =  {res}    0.0190
+{txt}
+{com}. xtreg lifeladder loggdppercapita healthylifeexpectancyatbirth freedomtomakelifechoices generosity perceptionsofcorruption socialsupport i.year, fe vce(robust)
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       516
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}       143
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.1547{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.6090{col 63}{txt}avg{col 67}={col 69}{res}       3.6
+{txt}     overall = {res}0.5906{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}9{txt},{res}142{txt}){col 67}={col 70}{res}     5.58
+{txt}corr(u_i, Xb){col 16}= {res}-0.0905{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{ralign 94:(Std. Err. adjusted for {res:143} clusters in id)}
+{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 30}{c |}{col 42}    Robust
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} 1.060799{col 42}{space 2} 1.034485{col 53}{space 1}    1.03{col 62}{space 3}0.307{col 70}{space 4}-.9841833{col 83}{space 3}  3.10578
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2}-.0836774{col 42}{space 2} .0936453{col 53}{space 1}   -0.89{col 62}{space 3}0.373{col 70}{space 4}-.2687964{col 83}{space 3} .1014416
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} 1.558161{col 42}{space 2} .4198827{col 53}{space 1}    3.71{col 62}{space 3}0.000{col 70}{space 4} .7281321{col 83}{space 3}  2.38819
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2}  .253569{col 42}{space 2} .1908772{col 53}{space 1}    1.33{col 62}{space 3}0.186{col 70}{space 4}-.1237592{col 83}{space 3} .6308972
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2}-.5973777{col 42}{space 2} .6019308{col 53}{space 1}   -0.99{col 62}{space 3}0.323{col 70}{space 4}-1.787281{col 83}{space 3} .5925258
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} .4025158{col 42}{space 2} .6731816{col 53}{space 1}    0.60{col 62}{space 3}0.551{col 70}{space 4} -.928237{col 83}{space 3} 1.733269
+{txt}{space 28} {c |}
+{space 24}year {c |}
+{space 23}2016  {c |}{col 30}{res}{space 2}-.0022387{col 42}{space 2} .0419442{col 53}{space 1}   -0.05{col 62}{space 3}0.958{col 70}{space 4}-.0851544{col 83}{space 3} .0806769
+{txt}{space 23}2017  {c |}{col 30}{res}{space 2} .0725169{col 42}{space 2} .0656002{col 53}{space 1}    1.11{col 62}{space 3}0.271{col 70}{space 4}-.0571623{col 83}{space 3}  .202196
+{txt}{space 23}2018  {c |}{col 30}{res}{space 2}-.0514037{col 42}{space 2}  .069014{col 53}{space 1}   -0.74{col 62}{space 3}0.458{col 70}{space 4}-.1878314{col 83}{space 3} .0850239
+{txt}{space 28} {c |}
+{space 23}_cons {c |}{col 30}{res}{space 2}-.1873363{col 42}{space 2} 11.52038{col 53}{space 1}   -0.02{col 62}{space 3}0.987{col 70}{space 4}-22.96095{col 83}{space 3} 22.58628
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} .71511781
+                     {txt}sigma_e {c |} {res} .21369997
+                         {txt}rho {c |} {res} .91802035{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+
+{com}. test (2016.year 2017.year 2018.year)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}2016.year = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} 2017.year = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} 2018.year = 0{p_end}
+
+{txt}       F(  3,   142) ={res}    2.13
+{txt}{col 13}Prob > F ={res}    0.0990
+{txt}
+{com}. bys region:xtreg lifeladder loggdppercapita healthylifeexpectancyatbirth freedomtomakelifechoices generosity perceptionsofcorruption socialsupport, fe
+
+{txt}{hline}
+-> region = Central and Eastern Europe
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}        64
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}        17
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.4529{col 63}{txt}min{col 67}={col 69}{res}         2
+{txt}     between = {res}0.6215{col 63}{txt}avg{col 67}={col 69}{res}       3.8
+{txt}     overall = {res}0.6339{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}41{txt}){col 67}={col 70}{res}     5.66
+{txt}corr(u_i, Xb){col 16}= {res}-0.8270{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0002
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} 1.942423{col 42}{space 2} 1.010413{col 53}{space 1}    1.92{col 62}{space 3}0.062{col 70}{space 4}-.0981469{col 83}{space 3} 3.982993
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2} .0426063{col 42}{space 2} .1259521{col 53}{space 1}    0.34{col 62}{space 3}0.737{col 70}{space 4}-.2117591{col 83}{space 3} .2969716
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} 1.217649{col 42}{space 2} .6093465{col 53}{space 1}    2.00{col 62}{space 3}0.052{col 70}{space 4}-.0129509{col 83}{space 3}  2.44825
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} .0123119{col 42}{space 2} .1085297{col 53}{space 1}    0.11{col 62}{space 3}0.910{col 70}{space 4}-.2068683{col 83}{space 3} .2314921
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2} .5807043{col 42}{space 2}  .909127{col 53}{space 1}    0.64{col 62}{space 3}0.527{col 70}{space 4}-1.255315{col 83}{space 3} 2.416723
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} .9166838{col 42}{space 2} .7639665{col 53}{space 1}    1.20{col 62}{space 3}0.237{col 70}{space 4}-.6261778{col 83}{space 3} 2.459545
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2}-18.64922{col 42}{space 2} 10.23532{col 53}{space 1}   -1.82{col 62}{space 3}0.076{col 70}{space 4}-39.31986{col 83}{space 3} 2.021425
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} .60896999
+                     {txt}sigma_e {c |} {res} .13426523
+                         {txt}rho {c |} {res} .95364241{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}16{txt}, {res}41{txt}) = {res}18.15{col 62}{txt}Prob > F = {res}0.0000
+
+{txt}{hline}
+-> region = Commonwealth of Independent States
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}        43
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}        11
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.3117{col 63}{txt}min{col 67}={col 69}{res}         3
+{txt}     between = {res}0.0003{col 63}{txt}avg{col 67}={col 69}{res}       3.9
+{txt}     overall = {res}0.0012{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}26{txt}){col 67}={col 70}{res}     1.96
+{txt}corr(u_i, Xb){col 16}= {res}-0.8933{txt}{col 49}Prob > F{col 67}={col 73}{res}0.1081
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} 1.944102{col 42}{space 2} 1.607698{col 53}{space 1}    1.21{col 62}{space 3}0.237{col 70}{space 4}-1.360569{col 83}{space 3} 5.248772
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2}-.1303088{col 42}{space 2} .1871915{col 53}{space 1}   -0.70{col 62}{space 3}0.493{col 70}{space 4}-.5150865{col 83}{space 3} .2544689
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} .3938761{col 42}{space 2} .9159463{col 53}{space 1}    0.43{col 62}{space 3}0.671{col 70}{space 4}-1.488878{col 83}{space 3} 2.276631
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2}-.0727135{col 42}{space 2} .2377182{col 53}{space 1}   -0.31{col 62}{space 3}0.762{col 70}{space 4}-.5613503{col 83}{space 3} .4159234
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2} 2.208943{col 42}{space 2} 1.480489{col 53}{space 1}    1.49{col 62}{space 3}0.148{col 70}{space 4}-.8342456{col 83}{space 3} 5.252131
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2}-2.784494{col 42}{space 2} 1.240237{col 53}{space 1}   -2.25{col 62}{space 3}0.033{col 70}{space 4}-5.333838{col 83}{space 3}-.2351506
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2}-3.836409{col 42}{space 2} 17.78636{col 53}{space 1}   -0.22{col 62}{space 3}0.831{col 70}{space 4}-40.39679{col 83}{space 3} 32.72397
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res}  1.552709
+                     {txt}sigma_e {c |} {res} .20384217
+                         {txt}rho {c |} {res} .98305714{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}10{txt}, {res}26{txt}) = {res}18.00{col 62}{txt}Prob > F = {res}0.0000
+
+{txt}{hline}
+-> region = East Asia
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}        12
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}         3
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.9522{col 63}{txt}min{col 67}={col 69}{res}         4
+{txt}     between = {res}0.9754{col 63}{txt}avg{col 67}={col 69}{res}       4.0
+{txt}     overall = {res}0.9505{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}3{txt}){col 67}={col 70}{res}     9.96
+{txt}corr(u_i, Xb){col 16}= {res}-0.9946{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0432
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} -4.02164{col 42}{space 2} 1.057599{col 53}{space 1}   -3.80{col 62}{space 3}0.032{col 70}{space 4}-7.387393{col 83}{space 3}-.6558869
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2} .6098332{col 42}{space 2} .0976122{col 53}{space 1}    6.25{col 62}{space 3}0.008{col 70}{space 4} .2991874{col 83}{space 3} .9204789
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2}-2.226625{col 42}{space 2} .5075372{col 53}{space 1}   -4.39{col 62}{space 3}0.022{col 70}{space 4}-3.841835{col 83}{space 3}-.6114149
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2}-.0123157{col 42}{space 2} .0677359{col 53}{space 1}   -0.18{col 62}{space 3}0.867{col 70}{space 4}-.2278814{col 83}{space 3}   .20325
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2} 1.832982{col 42}{space 2} 1.031246{col 53}{space 1}    1.78{col 62}{space 3}0.174{col 70}{space 4}-1.448904{col 83}{space 3} 5.114869
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} 2.959142{col 42}{space 2} .7402732{col 53}{space 1}    4.00{col 62}{space 3}0.028{col 70}{space 4} .6032627{col 83}{space 3} 5.315022
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2} .9042746{col 42}{space 2} 10.78812{col 53}{space 1}    0.08{col 62}{space 3}0.938{col 70}{space 4}-33.42833{col 83}{space 3} 35.23688
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} .95957363
+                     {txt}sigma_e {c |} {res} .03775452
+                         {txt}rho {c |} {res} .99845436{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}2{txt}, {res}3{txt}) = {res}2.98{col 62}{txt}Prob > F = {res}0.1936
+
+{txt}{hline}
+-> region = Latin America and Caribbean
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}        79
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}        22
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.6494{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.1670{col 63}{txt}avg{col 67}={col 69}{res}       3.6
+{txt}     overall = {res}0.1932{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}51{txt}){col 67}={col 70}{res}    15.74
+{txt}corr(u_i, Xb){col 16}= {res}-0.9704{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} 6.232149{col 42}{space 2} 1.057062{col 53}{space 1}    5.90{col 62}{space 3}0.000{col 70}{space 4} 4.110009{col 83}{space 3} 8.354289
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2}-.5790735{col 42}{space 2} .1507154{col 53}{space 1}   -3.84{col 62}{space 3}0.000{col 70}{space 4}-.8816473{col 83}{space 3}-.2764996
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} 1.818352{col 42}{space 2} .4537349{col 53}{space 1}    4.01{col 62}{space 3}0.000{col 70}{space 4} .9074407{col 83}{space 3} 2.729262
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} .0694769{col 42}{space 2} .1231161{col 53}{space 1}    0.56{col 62}{space 3}0.575{col 70}{space 4} -.177689{col 83}{space 3} .3166428
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2}-.4209156{col 42}{space 2} .7334062{col 53}{space 1}   -0.57{col 62}{space 3}0.569{col 70}{space 4} -1.89329{col 83}{space 3} 1.051459
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} 3.243087{col 42}{space 2} 1.049051{col 53}{space 1}    3.09{col 62}{space 3}0.003{col 70}{space 4}  1.13703{col 83}{space 3} 5.349144
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2} -18.2251{col 42}{space 2} 11.45425{col 53}{space 1}   -1.59{col 62}{space 3}0.118{col 70}{space 4}-41.22047{col 83}{space 3} 4.770269
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} 3.0037254
+                     {txt}sigma_e {c |} {res} .15082995
+                         {txt}rho {c |} {res} .99748487{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}21{txt}, {res}51{txt}) = {res}17.88{col 62}{txt}Prob > F = {res}0.0000
+
+{txt}{hline}
+-> region = Middle East and North Africa
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}        39
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}        12
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.6133{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.5707{col 63}{txt}avg{col 67}={col 69}{res}       3.2
+{txt}     overall = {res}0.5533{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}21{txt}){col 67}={col 70}{res}     5.55
+{txt}corr(u_i, Xb){col 16}= {res}-0.9413{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0014
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2}-.7699542{col 42}{space 2} .9764394{col 53}{space 1}   -0.79{col 62}{space 3}0.439{col 70}{space 4}-2.800571{col 83}{space 3} 1.260663
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2} -.169559{col 42}{space 2} .2174115{col 53}{space 1}   -0.78{col 62}{space 3}0.444{col 70}{space 4}-.6216909{col 83}{space 3} .2825729
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} 2.938037{col 42}{space 2} .6172794{col 53}{space 1}    4.76{col 62}{space 3}0.000{col 70}{space 4} 1.654334{col 83}{space 3}  4.22174
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} -.007329{col 42}{space 2} .1360405{col 53}{space 1}   -0.05{col 62}{space 3}0.958{col 70}{space 4}-.2902407{col 83}{space 3} .2755827
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2}-1.011399{col 42}{space 2} .6830768{col 53}{space 1}   -1.48{col 62}{space 3}0.154{col 70}{space 4}-2.431935{col 83}{space 3} .4091367
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} .7240583{col 42}{space 2}  .779809{col 53}{space 1}    0.93{col 62}{space 3}0.364{col 70}{space 4}-.8976433{col 83}{space 3}  2.34576
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2} 21.64843{col 42}{space 2} 13.64851{col 53}{space 1}    1.59{col 62}{space 3}0.128{col 70}{space 4}-6.735205{col 83}{space 3} 50.03207
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res}  1.933863
+                     {txt}sigma_e {c |} {res} .12033613
+                         {txt}rho {c |} {res} .99614289{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}11{txt}, {res}21{txt}) = {res}18.08{col 62}{txt}Prob > F = {res}0.0000
+
+{txt}{hline}
+-> region = North America and ANZ
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}        15
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}         4
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.9757{col 63}{txt}min{col 67}={col 69}{res}         3
+{txt}     between = {res}0.9793{col 63}{txt}avg{col 67}={col 69}{res}       3.8
+{txt}     overall = {res}0.8414{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}5{txt}){col 67}={col 70}{res}    33.49
+{txt}corr(u_i, Xb){col 16}= {res}-0.9964{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0007
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} 2.615106{col 42}{space 2} 1.026989{col 53}{space 1}    2.55{col 62}{space 3}0.051{col 70}{space 4}-.0248525{col 83}{space 3} 5.255065
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2}-.4344482{col 42}{space 2} .1101903{col 53}{space 1}   -3.94{col 62}{space 3}0.011{col 70}{space 4}-.7177013{col 83}{space 3}-.1511951
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} .6908691{col 42}{space 2} .2464118{col 53}{space 1}    2.80{col 62}{space 3}0.038{col 70}{space 4} .0574476{col 83}{space 3} 1.324291
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} -.000312{col 42}{space 2} .0229393{col 53}{space 1}   -0.01{col 62}{space 3}0.990{col 70}{space 4}-.0592793{col 83}{space 3} .0586554
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2} .3351529{col 42}{space 2} .2912312{col 53}{space 1}    1.15{col 62}{space 3}0.302{col 70}{space 4}-.4134807{col 83}{space 3} 1.083786
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} 4.173511{col 42}{space 2} .5824473{col 53}{space 1}    7.17{col 62}{space 3}0.001{col 70}{space 4} 2.676282{col 83}{space 3} 5.670739
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2} 5.645357{col 42}{space 2} 7.262538{col 53}{space 1}    0.78{col 62}{space 3}0.472{col 70}{space 4}-13.02359{col 83}{space 3} 24.31431
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} 1.0306851
+                     {txt}sigma_e {c |} {res} .01606816
+                         {txt}rho {c |} {res} .99975702{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}3{txt}, {res}5{txt}) = {res}38.99{col 62}{txt}Prob > F = {res}0.0007
+
+{txt}{hline}
+-> region = South Asia
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}        25
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}         7
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.8167{col 63}{txt}min{col 67}={col 69}{res}         2
+{txt}     between = {res}0.0813{col 63}{txt}avg{col 67}={col 69}{res}       3.6
+{txt}     overall = {res}0.0705{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}12{txt}){col 67}={col 70}{res}     8.91
+{txt}corr(u_i, Xb){col 16}= {res}-0.9936{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0008
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2}  2.90783{col 42}{space 2} 2.273158{col 53}{space 1}    1.28{col 62}{space 3}0.225{col 70}{space 4}-2.044956{col 83}{space 3} 7.860615
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2}-1.792327{col 42}{space 2} .3822476{col 53}{space 1}   -4.69{col 62}{space 3}0.001{col 70}{space 4}-2.625173{col 83}{space 3}-.9594806
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} 3.240711{col 42}{space 2} 1.774839{col 53}{space 1}    1.83{col 62}{space 3}0.093{col 70}{space 4} -.626331{col 83}{space 3} 7.107754
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2}-.2429036{col 42}{space 2} .3312093{col 53}{space 1}   -0.73{col 62}{space 3}0.477{col 70}{space 4}-.9645467{col 83}{space 3} .4787395
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2}-.1758465{col 42}{space 2} 1.512416{col 53}{space 1}   -0.12{col 62}{space 3}0.909{col 70}{space 4}-3.471119{col 83}{space 3} 3.119426
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} 5.585799{col 42}{space 2} 1.996714{col 53}{space 1}    2.80{col 62}{space 3}0.016{col 70}{space 4} 1.235334{col 83}{space 3} 9.936265
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2} 80.64646{col 42}{space 2} 15.37175{col 53}{space 1}    5.25{col 62}{space 3}0.000{col 70}{space 4} 47.15429{col 83}{space 3} 114.1386
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} 5.5710991
+                     {txt}sigma_e {c |} {res} .18198992
+                         {txt}rho {c |} {res} .99893402{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}6{txt}, {res}12{txt}) = {res}24.29{col 62}{txt}Prob > F = {res}0.0000
+
+{txt}{hline}
+-> region = Southeast Asia
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}        29
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}         9
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.0677{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.5922{col 63}{txt}avg{col 67}={col 69}{res}       3.2
+{txt}     overall = {res}0.6305{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}14{txt}){col 67}={col 70}{res}     0.17
+{txt}corr(u_i, Xb){col 16}= {res}-0.9224{txt}{col 49}Prob > F{col 67}={col 73}{res}0.9809
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2}-.3753054{col 42}{space 2}  3.60062{col 53}{space 1}   -0.10{col 62}{space 3}0.918{col 70}{space 4}-8.097868{col 83}{space 3} 7.347257
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2} .3666261{col 42}{space 2} .7899628{col 53}{space 1}    0.46{col 62}{space 3}0.650{col 70}{space 4}-1.327676{col 83}{space 3} 2.060928
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2}-.1617644{col 42}{space 2} 2.597547{col 53}{space 1}   -0.06{col 62}{space 3}0.951{col 70}{space 4}-5.732948{col 83}{space 3} 5.409419
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} .0134814{col 42}{space 2} .2256424{col 53}{space 1}    0.06{col 62}{space 3}0.953{col 70}{space 4}-.4704734{col 83}{space 3} .4974363
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2} .4347215{col 42}{space 2} 1.795657{col 53}{space 1}    0.24{col 62}{space 3}0.812{col 70}{space 4}-3.416579{col 83}{space 3} 4.286022
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2}-1.649729{col 42}{space 2} 2.948164{col 53}{space 1}   -0.56{col 62}{space 3}0.585{col 70}{space 4}-7.972912{col 83}{space 3} 4.673455
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2}-13.16643{col 42}{space 2} 24.32909{col 53}{space 1}   -0.54{col 62}{space 3}0.597{col 70}{space 4}-65.34713{col 83}{space 3} 39.01427
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} 1.2123776
+                     {txt}sigma_e {c |} {res} .17339756
+                         {txt}rho {c |} {res} .97995454{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}8{txt}, {res}14{txt}) = {res}4.05{col 62}{txt}Prob > F = {res}0.0109
+
+{txt}{hline}
+-> region = Sub-Saharan Africa
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       130
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}        38
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.0318{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.2697{col 63}{txt}avg{col 67}={col 69}{res}       3.4
+{txt}     overall = {res}0.1553{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}86{txt}){col 67}={col 70}{res}     0.47
+{txt}corr(u_i, Xb){col 16}= {res}-0.8744{txt}{col 49}Prob > F{col 67}={col 73}{res}0.8280
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} 1.133679{col 42}{space 2} 1.664796{col 53}{space 1}    0.68{col 62}{space 3}0.498{col 70}{space 4}-2.175826{col 83}{space 3} 4.443184
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2} .0694459{col 42}{space 2} .1012555{col 53}{space 1}    0.69{col 62}{space 3}0.495{col 70}{space 4}-.1318434{col 83}{space 3} .2707351
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} .7388266{col 42}{space 2} 1.045899{col 53}{space 1}    0.71{col 62}{space 3}0.482{col 70}{space 4}-1.340352{col 83}{space 3} 2.818005
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2} .0279277{col 42}{space 2} .2903651{col 53}{space 1}    0.10{col 62}{space 3}0.924{col 70}{space 4}-.5492991{col 83}{space 3} .6051544
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2}-.2665997{col 42}{space 2} .9204256{col 53}{space 1}   -0.29{col 62}{space 3}0.773{col 70}{space 4}-2.096345{col 83}{space 3} 1.563146
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2}-.3180686{col 42}{space 2} .9232379{col 53}{space 1}   -0.34{col 62}{space 3}0.731{col 70}{space 4}-2.153405{col 83}{space 3} 1.517268
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2}-8.416491{col 42}{space 2}   11.786{col 53}{space 1}   -0.71{col 62}{space 3}0.477{col 70}{space 4}-31.84628{col 83}{space 3} 15.01329
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} 1.0230338
+                     {txt}sigma_e {c |} {res} .31509077
+                         {txt}rho {c |} {res} .91335728{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}37{txt}, {res}86{txt}) = {res}6.57{col 62}{txt}Prob > F = {res}0.0000
+
+{txt}{hline}
+-> region = Western Europe
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}        80
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}        20
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.6466{col 63}{txt}min{col 67}={col 69}{res}         4
+{txt}     between = {res}0.6533{col 63}{txt}avg{col 67}={col 69}{res}       4.0
+{txt}     overall = {res}0.6530{col 63}{txt}max{col 67}={col 69}{res}         4
+
+{txt}{col 49}F({res}6{txt},{res}54{txt}){col 67}={col 70}{res}    16.47
+{txt}corr(u_i, Xb){col 16}= {res}-0.1621{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                  lifeladder{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 13}loggdppercapita {c |}{col 30}{res}{space 2} .7746517{col 42}{space 2} .7932726{col 53}{space 1}    0.98{col 62}{space 3}0.333{col 70}{space 4}-.8157641{col 83}{space 3} 2.365067
+{txt}healthylifeexpectancyatbirth {c |}{col 30}{res}{space 2} .3561388{col 42}{space 2} .0920631{col 53}{space 1}    3.87{col 62}{space 3}0.000{col 70}{space 4} .1715634{col 83}{space 3} .5407142
+{txt}{space 4}freedomtomakelifechoices {c |}{col 30}{res}{space 2} .6601976{col 42}{space 2} .5978946{col 53}{space 1}    1.10{col 62}{space 3}0.274{col 70}{space 4} -.538509{col 83}{space 3} 1.858904
+{txt}{space 18}generosity {c |}{col 30}{res}{space 2}-.0120066{col 42}{space 2} .0517776{col 53}{space 1}   -0.23{col 62}{space 3}0.818{col 70}{space 4}-.1158146{col 83}{space 3} .0918013
+{txt}{space 5}perceptionsofcorruption {c |}{col 30}{res}{space 2}-1.150898{col 42}{space 2}  .409486{col 53}{space 1}   -2.81{col 62}{space 3}0.007{col 70}{space 4}-1.971868{col 83}{space 3}-.3299284
+{txt}{space 15}socialsupport {c |}{col 30}{res}{space 2} 3.611379{col 42}{space 2} .8642274{col 53}{space 1}    4.18{col 62}{space 3}0.000{col 70}{space 4} 1.878708{col 83}{space 3} 5.344051
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2}-30.41094{col 42}{space 2} 7.784895{col 53}{space 1}   -3.91{col 62}{space 3}0.000{col 70}{space 4}-46.01871{col 83}{space 3}-14.80317
+{txt}{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+                     sigma_u {c |} {res} .42927469
+                     {txt}sigma_e {c |} {res} .08354986
+                         {txt}rho {c |} {res} .96350164{txt}   (fraction of variance due to u_i)
+{hline 29}{c BT}{hline 64}
+F test that all u_i=0: F({res}19{txt}, {res}54{txt}) = {res}36.65{col 62}{txt}Prob > F = {res}0.0000
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. 
